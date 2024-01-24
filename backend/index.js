@@ -9,16 +9,17 @@ const app = express();
 
 // middleware for parsing req body
 app.use(express.json());
-
-// Allow Custom Origins
-app.use(
-  cors({
-    origin: 'http://localhost:3000',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type'],
-  })
-);
 // CORS
+app.use(cors())
+// Allow Custom Origins
+// app.use(
+//   cors({
+//     origin: 'http://localhost:3000',
+//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//     allowedHeaders: ['Content-Type'],
+//   })
+// );
+
 // route to get to home page
 app.get('/', (req, res) => {
     console.log(req)
