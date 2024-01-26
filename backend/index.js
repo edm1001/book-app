@@ -1,7 +1,6 @@
 import express from 'express';
 import {PORT , mongoDBURL} from "./config.js";
 import mongoose from 'mongoose';
-import {Book} from "./models/bookModel.js";
 import booksRoute from "./routes/booksRoute.js";
 import cors from 'cors';
 
@@ -26,8 +25,8 @@ app.get('/', (req, res) => {
     return res.status(234).send('Hello World!');
 });
 
-
 app.use('/books', booksRoute);
+
 mongoose
     .connect(mongoDBURL)
     .then(() => {
