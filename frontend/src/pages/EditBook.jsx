@@ -25,7 +25,7 @@ const EditBook = () => {
       alert('check console for error')
       console.log(err);
     })
-  },[])
+  },[id])
 
   const handleEditBook = () => {
     const data = {title, author, publishYear};
