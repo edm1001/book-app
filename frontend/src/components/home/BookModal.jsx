@@ -4,8 +4,6 @@ import { AiOutlineClose } from "react-icons/ai";
 import { PiBookOpenTextLight } from "react-icons/pi";
 import { BiUserCircle } from "react-icons/bi";
 
-import React from 'react'
-
 const BookModal = ({book, onClose}) => {
   return (
     <div className="fixed bg-black bg-opacity-60 top-0 left-0 right-0 bottom-0 z-50 flex justify-center items-center" onClose={onClose}>
@@ -29,6 +27,10 @@ const BookModal = ({book, onClose}) => {
           <BiUserCircle className='text-red-300 text-2xl' />
           <h2 className='my-1'>{book.author}</h2>
         </div>
+        <p className='mt-4'>Anything info for user</p>
+        <p className='my-2'>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit, autem delectus sit hic repellendus ea necessitatibus beatae dolor. Quidem asperiores reiciendis maxime magnam nobis temporibus, delectus labore quaerat ad! Et!
+        </p>
       </div>
     </div>
   )
