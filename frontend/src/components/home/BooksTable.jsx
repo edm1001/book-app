@@ -22,7 +22,6 @@ const BooksTable = ({ books }) => {
         </tr>
       </thead>
       <tbody>
-        {/* only printing title and operations ; check route on not rendering */}
         {books.map((book, index) => (
           <tr key={book._id} className="h-8">
             <td className="border border-slate-700 rounded-md text-center">
