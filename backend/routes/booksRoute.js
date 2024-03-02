@@ -1,90 +1,107 @@
 import express from "express";
 import { Book } from "../models/bookModel.js";
-
 const router = express.Router();
 
 // route to save a new book
-router.post("/", async (req, res) => {
+router.post('/', async (request, response) => {
   try {
-    if (!req.body.title || !req.body.author || !req.body.publishYear) {
-      return res
-        .status(400)
-        .send({ message: "Please fill in all required fields" });
+    if (
+      !request.body.title ||
+      !request.body.author ||
+      !request.body.publishYear
+    ) {
+      return response.status(400).send({
+        message: 'Send all required fields: title, author, publishYear',
+      });
     }
     const newBook = {
-      title: req.body.title,
-      author: req.body.author,
-      publishYear: req.body.publishYear,
+      title: request.body.title,
+      author: request.body.author,
+      publishYear: request.body.publishYear,
     };
+
     const book = await Book.create(newBook);
 
-    return res.status(201).send({ message: "Book created successfully", book });
-  } catch (err) {
-    console.log(err.message);
-    res.status(500).send({ message: err.message });
+    return response.status(201).send(book);
+  } catch (error) {
+    console.log(error.message);
+    response.status(500).send({ message: error.message });
   }
 });
+
 // route to get all books from db
-router.get("/", async (req, res) => {
+router.get('/', async (request, response) => {
   try {
     const books = await Book.find({});
-    return res.status(200).json({
+
+    return response.status(200).json({
       count: books.length,
       data: books,
     });
-  } catch (err) {
-    console.log(err.message);
-    res.status(500).send({ message: err.message });
+  } catch (error) {
+    console.log(error.message);
+    response.status(500).send({ message: error.message });
   }
 });
+
 // route to get 1 books from db
-router.get("/:id", async (req, res) => {
+router.get('/:id', async (request, response) => {
   try {
-    const { id } = req.params;
+    const { id } = request.params;
     const book = await Book.findById(id);
-    return res.status(200).json({ book });
-  } catch (err) {
-    console.log(err.message);
-    res.status(500).send({ message: err.message });
+
+    return response.status(200).json(book);
+  } catch (error) {
+    console.log(error.message);
+    response.status(500).send({ message: error.message });
   }
 });
 
 // update a book
-router.put("/:id", async (req, res) => {
+router.put('/:id', async (request, response) => {
   try {
-    if (!req.body.title || !req.body.author || !req.body.publishYear) {
-      return res.status(400).send({
-        message: "Please fill in all required fields",
+    if (
+      !request.body.title ||
+      !request.body.author ||
+      !request.body.publishYear
+    ) {
+      return response.status(400).send({
+        message: 'Send all required fields: title, author, publishYear',
       });
     }
 
-    const { id } = req.params;
-    const result = await Book.findByIdAndUpdate(id, req.body);
+    const { id } = request.params;
+
+    const result = await Book.findByIdAndUpdate(id, request.body);
 
     if (!result) {
-      return res.status(404).json({ message: "Book not found" });
-    } else {
-      return res.status(200).json({ message: "Book updated successfully" });
+      return response.status(404).json({ message: 'Book not found' });
     }
-  } catch (err) {
-    console.log(err.message);
-    res.status(500).send({ message: err.message });
+
+    return response.status(200).send({ message: 'Book updated successfully' });
+  } catch (error) {
+    console.log(error.message);
+    response.status(500).send({ message: error.message });
   }
 });
 
 // Route to delete
-router.delete("/:id", async (req, res) => {
+router.delete('/:id', async (request, response) => {
   try {
-    const { id } = req.params;
+    const { id } = request.params;
+
     const result = await Book.findByIdAndDelete(id);
+
     if (!result) {
-      return res.status(404).json({ message: "Book not found" });
+      return response.status(404).json({ message: 'Book not found' });
     }
-    return res.status(200).json({ message: "Book deleted successfully" });
-  } catch (err) {
-    console.log(err.message);
-    res.status(500).send({ message: err.message });
+
+    return response.status(200).send({ message: 'Book deleted successfully' });
+  } catch (error) {
+    console.log(error.message);
+    response.status(500).send({ message: error.message });
   }
 });
+
 
 export default router;
