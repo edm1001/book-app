@@ -9,16 +9,26 @@ const CreateBook = () => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [publishYear, setPublishYear] = useState("");
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
 
   const handleSaveBook = () => {
-    const data = { title, author, publishYear, image };
     setLoading(true);
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("author", author);
+    formData.append("publishYear", publishYear);
+    if (image) {
+      formData.append("image", image);
+    }
     axios
-      .post("http://localhost:3331/books", data)
+      .post("http://localhost:3331/books", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then(() => {
         setLoading(false);
         enqueueSnackbar("Book created successfully", { variant: "success" });
@@ -36,24 +46,27 @@ const CreateBook = () => {
       <BackButton />
       <h1 className="text-3xl my-4">Create Book</h1>
       {loading ? <Spinner /> : ""}
-      <div className="flex flex-col border border-sky-400 rounded-xl w-[600px] p-4 mx-auto">
+      <form
+        className="flex flex-col border border-sky-400 rounded-xl w-[600px] p-4 mx-auto"
+        onSubmit={handleSaveBook}
+      >
         <div className="my-4">
           <label htmlFor="title" className="text-xl mr-4">
             Title:
           </label>
           <input
-          className="border border-2 rounded-md border-slate-300"
+            className="border border-2 rounded-md border-slate-300"
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
         </div>
         <div className="my-4">
-          <label htmlFor="author" className="text-xl mr-4 text-gray-500">
+          <label htmlFor="author" className="text-xl mr-4">
             Author:
           </label>
           <input
-          className="border border-2 rounded-md border-slate-300"
+            className="border border-2 rounded-md border-slate-300"
             type="text"
             value={author}
             onChange={(e) => setAuthor(e.target.value)}
@@ -64,7 +77,7 @@ const CreateBook = () => {
             Publish Year
           </label>
           <input
-          className="border border-2 rounded-md border-slate-300"
+            className="border border-2 rounded-md border-slate-300"
             type="text"
             value={publishYear}
             onChange={(e) => setPublishYear(e.target.value)}
@@ -72,19 +85,28 @@ const CreateBook = () => {
         </div>
         <div className="my-4">
           <label htmlFor="image" className="text-xl mr-4">
-            Image: (optional)
+            Preview:
           </label>
           <input
             type="file"
-            accept="image/*"
             value={image}
             onChange={(e) => setImage(e.target.files[0])}
           />
         </div>
-        <button className="p-2 bg-sky-300 m-8" onClick={handleSaveBook}>
+        <button className="p-2 bg-sky-300 m-8" type="submit">
           Save
         </button>
-      </div>
+        {image && (
+          <div>
+            <label>Preview:</label>
+            <img
+              src={URL.createObjectURL(image)}
+              alt="Book preview"
+              style={{ maxWidth: "200px" }}
+            />
+          </div>
+        )}
+      </form>
     </div>
   );
 };

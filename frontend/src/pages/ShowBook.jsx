@@ -44,11 +44,12 @@ const ShowBook = () => {
             <span>{book.author}</span>
           </div>
 
-          <div className="my-4">
-            <span className="text-xl mr-4 text-gray-500">Image</span>
-            <span>{book.image}</span>
-          </div>
           {/* add image here */}
+          {book.image && (
+          <div className="my-4">
+            <img src={book.image} alt="book cover" style={{maxWidth:'200px'}}/>
+                      </div>
+          )}
 
           <div className="my-4">
             <span className="text-xl mr-4 text-gray-500">Publish Year</span>
