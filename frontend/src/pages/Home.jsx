@@ -26,16 +26,16 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="p-4">
+    <div className="p-3 bg-sky-100 flex flex-col justify-center items-center h-screen">
       <div className="flex justify-center items-center gap-x-4">
         <button
-          className="bg-sky-300 hover:bg-sky-600 px-4 py-1 rounded-lg"
+          className="bg-sky-400 hover:bg-sky-200 text-white px-4 py-1 rounded-lg"
           onClick={() => setShowType("table")}
         >
           Table
         </button>
         <button
-          className="bg-sky-300 hover:bg-sky-600 px-4 py-1 rounded-lg"
+          className="bg-sky-400 hover:bg-sky-200 text-white px-4 py-1 rounded-lg"
           onClick={() => setShowType("card")}
         >
           Card
@@ -44,7 +44,7 @@ const Home = () => {
       <div className="flex justify-center items-center">
         <h1 className="text-3xl my-8">Books List</h1>
         <Link to="/books/create">
-          <MdOutlineAddBox className="text-sky-800 text-4xl" />
+          <MdOutlineAddBox className="text-sky-800 text-4xl ps-2" />
         </Link>
       </div>
       {loading ? (

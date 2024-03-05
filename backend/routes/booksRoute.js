@@ -3,15 +3,17 @@ import { Book } from "../models/bookModel.js";
 const router = express.Router();
 
 // route to save a new book
-router.post('/', async (request, response) => {
+router.post("/", async (request, response) => {
   try {
     if (
       !request.body.title ||
       !request.body.author ||
-      !request.body.publishYear
+      !request.body.publishYear ||
+      !request.body.image
     ) {
       return response.status(400).send({
-        message: 'Send all required fields: title, author, publishYear',
+        message:
+          "Send all required fields: title, author, publishYear, & image",
       });
     }
     const newBook = {
@@ -30,7 +32,7 @@ router.post('/', async (request, response) => {
 });
 
 // route to get all books from db
-router.get('/', async (request, response) => {
+router.get("/", async (request, response) => {
   try {
     const books = await Book.find({});
 
@@ -45,7 +47,7 @@ router.get('/', async (request, response) => {
 });
 
 // route to get 1 books from db
-router.get('/:id', async (request, response) => {
+router.get("/:id", async (request, response) => {
   try {
     const { id } = request.params;
     const book = await Book.findById(id);
@@ -58,7 +60,7 @@ router.get('/:id', async (request, response) => {
 });
 
 // update a book
-router.put('/:id', async (request, response) => {
+router.put("/:id", async (request, response) => {
   try {
     if (
       !request.body.title ||
@@ -66,7 +68,7 @@ router.put('/:id', async (request, response) => {
       !request.body.publishYear
     ) {
       return response.status(400).send({
-        message: 'Send all required fields: title, author, publishYear',
+        message: "Send all required fields: title, author, publishYear",
       });
     }
 
@@ -75,10 +77,10 @@ router.put('/:id', async (request, response) => {
     const result = await Book.findByIdAndUpdate(id, request.body);
 
     if (!result) {
-      return response.status(404).json({ message: 'Book not found' });
+      return response.status(404).json({ message: "Book not found" });
     }
 
-    return response.status(200).send({ message: 'Book updated successfully' });
+    return response.status(200).send({ message: "Book updated successfully" });
   } catch (error) {
     console.log(error.message);
     response.status(500).send({ message: error.message });
@@ -86,22 +88,21 @@ router.put('/:id', async (request, response) => {
 });
 
 // Route to delete
-router.delete('/:id', async (request, response) => {
+router.delete("/:id", async (request, response) => {
   try {
     const { id } = request.params;
 
     const result = await Book.findByIdAndDelete(id);
 
     if (!result) {
-      return response.status(404).json({ message: 'Book not found' });
+      return response.status(404).json({ message: "Book not found" });
     }
 
-    return response.status(200).send({ message: 'Book deleted successfully' });
+    return response.status(200).send({ message: "Book deleted successfully" });
   } catch (error) {
     console.log(error.message);
     response.status(500).send({ message: error.message });
   }
 });
-
 
 export default router;
