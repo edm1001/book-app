@@ -38,6 +38,7 @@ const upload = multer({ storage: storage, fileFilter: fileFilter });
 // route to save a new book
 router.post("/",upload.single('image'), async (request, response) => {
   try {
+    const {filename} = request.file;
     if (
       !request.body.title ||
       !request.body.author ||
@@ -53,7 +54,7 @@ router.post("/",upload.single('image'), async (request, response) => {
       title: request.body.title,
       author: request.body.author,
       publishYear: request.body.publishYear,
-      image: request.file.path
+      image: `/uploads/${filename}`
     };
 
     const book = await Book.create(newBook);
@@ -80,7 +81,7 @@ router.get("/", async (request, response) => {
   }
 });
 
-// route to get 1 books from db
+// route to get 1 book from db
 router.get("/:id", async (request, response) => {
   try {
     const { id } = request.params;

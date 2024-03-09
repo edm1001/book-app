@@ -21,12 +21,12 @@ const ShowBook = () => {
         console.log(error);
         setLoading(false);
       });
-  }, []);
-
+  }, [id]);
+  console.log(book.image);
   return (
     <div className="p-4">
       <BackButton />
-      <h1 className="text-3xl my-4">Show Book</h1>
+      <h1 className="text-3xl my-4 text-center w-full">Show Book</h1>
       {loading ? (
         <Spinner />
       ) : (
@@ -43,26 +43,31 @@ const ShowBook = () => {
             <span className="text-xl mr-4 text-gray-500">Author</span>
             <span>{book.author}</span>
           </div>
-
-          {/* add image here */}
-          {book.image && (
-          <div className="my-4">
-            <img src={book.image} alt="book cover" style={{maxWidth:'200px'}}/>
-                      </div>
-          )}
-
           <div className="my-4">
             <span className="text-xl mr-4 text-gray-500">Publish Year</span>
             <span>{book.publishYear}</span>
           </div>
           <div className="my-4">
             <span className="text-xl mr-4 text-gray-500">Create Time</span>
-            <span>{new Date(book.createdAt).toString()}</span>
+            <span className="text-xs">
+              {new Date(book.createdAt).toString()}
+            </span>
           </div>
           <div className="my-4">
             <span className="text-xl mr-4 text-gray-500">Last Update Time</span>
-            <span>{new Date(book.updatedAt).toString()}</span>
+            <span className="text-xs">
+              {new Date(book.updatedAt).toString()}
+            </span>
           </div>
+          {book.image && (
+            <div className="my-4">
+              <img
+                src={book.image}
+                alt="book cover"
+                style={{ maxWidth: "200px" }}
+              ></img>
+            </div>
+          )}
         </div>
       )}
     </div>
