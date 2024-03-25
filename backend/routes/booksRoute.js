@@ -85,6 +85,7 @@ router.get("/", async (request, response) => {
 router.get("/:id", async (request, response) => {
   try {
     const { id } = request.params;
+    
     const book = await Book.findById(id);
 
     return response.status(200).json(book);
@@ -114,6 +115,7 @@ router.put("/:id", async (request, response) => {
     if (!result) {
       return response.status(404).json({ message: "Book not found" });
     }
+
     return response.status(200).send({ message: "Book updated successfully" });
   } catch (error) {
     console.log(error.message);

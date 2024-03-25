@@ -29,13 +29,13 @@ const EditBook = () => {
         alert("check console for error");
         console.log(err);
       });
-  }, [id]);
+  }, []);
 
   const handleEditBook = () => {
     const data = { title, author, publishYear };
     setLoading(true);
     axios
-      .put(`http://localhost:3331/books${id}`, data)
+      .put(`http://localhost:3331/books/${id}`, data)
       .then(() => {
         setLoading(false);
         enqueueSnackbar("Book updated successfully", { variant: "success" });
@@ -43,26 +43,23 @@ const EditBook = () => {
       })
       .catch((err) => {
         setLoading(false);
-        enqueueSnackbar("Please try again or refresh page", {
-          variant: "error",
-        });
+        enqueueSnackbar("Please try again or refresh page", {variant: "error" });
         console.log(err);
       });
   };
 
-  // when edit is clicked data from book isn't showing
-
   return (
     <div className="p-4">
       <BackButton />
-      <h1 className="text-3xl my-4">Edit Book</h1>
+      <h1 className="text-3xl my-12 text-center">Edit Book</h1>
       {loading ? <Spinner /> : ""}
-      <div className="flex flex-col border border-sky-400 rounded-xl w-[600px] p-4 mx-auto">
+      <div className="flex flex-col border-2 border-blue-400 bg-sky-100 rounded-xl w-[600px] p-4 mx-auto">
         <div className="my-4">
           <label htmlFor="title" className="text-xl mr-4 text-gray-500">
             title
           </label>
           <input
+            className="border border-2 rounded-sm border-slate-300"
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
@@ -73,6 +70,7 @@ const EditBook = () => {
             Author
           </label>
           <input
+            className="border border-2 rounded-sm border-slate-300"
             type="text"
             value={author}
             onChange={(e) => setAuthor(e.target.value)}
@@ -83,12 +81,16 @@ const EditBook = () => {
             Publish Year
           </label>
           <input
+            className="border border-2 rounded-sm border-slate-300"
             type="number"
             value={publishYear}
             onChange={(e) => setPublishYear(e.target.value)}
           />
         </div>
-        <button className="p-2 bg-sky-300 m-8" onClick={handleEditBook}>
+        <button
+          className="p-2 bg-sky-300 hover:bg-sky-200 m-8 rounded-md"
+          onClick={handleEditBook}
+        >
           Save
         </button>
       </div>
