@@ -40,6 +40,16 @@ const CreateBook = () => {
         console.log(err);
       });
   };
+  // function sendImage(ev) {
+  //   const reader = new FileReader();
+  //   reader.readAsDataURL(ev.target.files[0]);
+  //   reader.onload = () => {
+  //     handleSaveBook(null, {
+  //       info: ev.target.files[0],
+  //       data: reader.result,
+  //     })
+  //   }
+  // }
 
   return (
     <div className="p-4">
@@ -89,7 +99,8 @@ const CreateBook = () => {
           </label>
           <input
             type="file"
-            onChange={(e) => setImage(e.target.files[0])}
+            // onChange={sendImage}
+            // onChange={(e) => setImage(e.target.files[0])}
           />
         </div>
         <button className="p-2 bg-sky-300 m-8" type="submit">

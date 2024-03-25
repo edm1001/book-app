@@ -6,6 +6,7 @@ import Spinner from "../components/Spinner";
 
 const ShowBook = () => {
   const [book, setBook] = useState({});
+  // const [imageURL, setImageUrl] = useState('')
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
 
@@ -16,12 +17,15 @@ const ShowBook = () => {
       .then((response) => {
         setBook(response.data);
         setLoading(false);
+        // setImageUrl(response.data.imageUrl);
       })
       .catch((error) => {
         console.log(error);
         setLoading(false);
       });
   }, [id]);
+
+
   console.log(book.image);
   return (
     <div className="p-4">
@@ -59,15 +63,15 @@ const ShowBook = () => {
               {new Date(book.updatedAt).toString()}
             </span>
           </div>
-          {book.image && (
+          {/* {book.image && (
             <div className="my-4">
               <img
                 src={book.image}
-                alt="book cover"
+                alt="image"
                 style={{ maxWidth: "200px" }}
               ></img>
             </div>
-          )}
+          )} */}
         </div>
       )}
     </div>
