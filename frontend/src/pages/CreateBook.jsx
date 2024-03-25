@@ -9,37 +9,66 @@ const CreateBook = () => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [publishYear, setPublishYear] = useState("");
-  const [image, setImage] = useState(null);
+  // const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
 
   const handleSaveBook = () => {
+    const data = {
+      title,
+      author,
+      publishYear,
+    };
     setLoading(true);
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("author", author);
-    formData.append("publishYear", publishYear);
-    if (image) {
-      formData.append("image", image);
-    }
     axios
-      .post("http://localhost:3331/books", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
+      .post('http://localhost:3331/books', data)
       .then(() => {
         setLoading(false);
-        enqueueSnackbar("Book created successfully", { variant: "success" });
-        navigate("/");
+        enqueueSnackbar('Book Created successfully', { variant: 'success' });
+        navigate('/');
       })
-      .catch((err) => {
+      .catch((error) => {
         setLoading(false);
-        enqueueSnackbar("check console for error", { variant: "error" });
-        console.log(err);
+        // alert('An error happened. Please Chack console');
+        enqueueSnackbar('Error check console', { variant: 'error' });
+        console.log(error);
       });
   };
+  // const handleSaveBook = () => {
+  //   const data = {
+  //     title,
+  //     author,
+  //     publishYear,
+  //   };
+
+  //   setLoading(true);
+  //   // const formData = new FormData();
+  //   // formData.append("title", title);
+  //   // formData.append("author", author);
+  //   // formData.append("publishYear", publishYear);
+  //   // if (image) {
+  //   //   formData.append("image", image);
+  //   // }
+  //   axios
+  //     .post("http://localhost:3331/books", data)
+  //     // , {
+  //     // headers: {
+  //     //   "Content-Type": "multipart/form-data",
+  //     // },
+  //     // }
+  //     .then(() => {
+  //       setLoading(false);
+  //       enqueueSnackbar("Book created successfully", { variant: "success" });
+  //       navigate("/");
+  //     })
+  //     .catch((err) => {
+  //       setLoading(false);
+  //       enqueueSnackbar("check console for error", { variant: "error" });
+  //       console.log(err);
+  //     });
+  // };
+  
   // function sendImage(ev) {
   //   const reader = new FileReader();
   //   reader.readAsDataURL(ev.target.files[0]);
@@ -54,12 +83,9 @@ const CreateBook = () => {
   return (
     <div className="p-4">
       <BackButton />
-      <h1 className="text-3xl my-4">Create Book</h1>
+      <h1 className="text-3xl my-4 text-center mt-12 text-4xl">Create Book</h1>
       {loading ? <Spinner /> : ""}
-      <form
-        className="flex flex-col border border-sky-400 rounded-xl w-[600px] p-4 mx-auto"
-        onSubmit={handleSaveBook}
-      >
+      <div className="flex flex-col border-2 border-sky-400 bg-blue-100 rounded-xl w-[600px] p-4 mx-auto mt-12">
         <div className="my-4">
           <label htmlFor="title" className="text-xl mr-4">
             Title:
@@ -93,20 +119,23 @@ const CreateBook = () => {
             onChange={(e) => setPublishYear(e.target.value)}
           />
         </div>
-        <div className="my-4">
+        {/* <div className="my-4">
           <label htmlFor="image" className="text-xl mr-4">
-            Preview:
+            Image:
           </label>
           <input
             type="file"
             // onChange={sendImage}
-            // onChange={(e) => setImage(e.target.files[0])}
+            onChange={(e) => setImage(e.target.files[0])}
           />
-        </div>
-        <button className="p-2 bg-sky-300 m-8" type="submit">
+        </div> */}
+        <button
+          className="p-2 bg-sky-300 hover:bg-sky-200 m-8 rounded-md"
+          onClick={handleSaveBook}
+        >
           Save
         </button>
-        {image && (
+        {/* {image && (
           <div>
             <label>Preview:</label>
             <img
@@ -115,8 +144,8 @@ const CreateBook = () => {
               style={{ maxWidth: "200px" }}
             />
           </div>
-        )}
-      </form>
+        )} */}
+      </div>
     </div>
   );
 };

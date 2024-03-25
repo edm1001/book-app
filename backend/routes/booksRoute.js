@@ -1,60 +1,60 @@
 import express from "express";
 import { Book } from "../models/bookModel.js";
-import fs from 'fs';
-import path, {dirname} from 'path';
-import multer from 'multer';
-import { fileURLToPath } from "url";
+// import fs from 'fs';
+// import path, {dirname} from 'path';
+// import multer from 'multer';
+// import { fileURLToPath } from "url";
 
 const router = express.Router();
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const uploadsDir = path.join(__dirname, '../uploads');
+// const __dirname = dirname(fileURLToPath(import.meta.url));
+// const uploadsDir = path.join(__dirname, '../uploads');
 
-if (!fs.existsSync(uploadsDir)) {
-    fs.mkdirSync(uploadsDir);
-}
+// if (!fs.existsSync(uploadsDir)) {
+//     fs.mkdirSync(uploadsDir);
+// }
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, uploadsDir);
-  },
-  filename: function (req, file, cb) {
-    const ext = path.extname(file.originalname);
-    cb(null, Date.now() + ext);
-  }
-});
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, uploadsDir);
+//   },
+//   filename: function (req, file, cb) {
+//     const ext = path.extname(file.originalname);
+//     cb(null, Date.now() + ext);
+//   }
+// });
 
 //multer file config
-const fileFilter = (req, file, cb) => {
-  if (file.mimetype.startsWith('image/')) {
-    cb(null, true);
-  } else {
-    cb(new Error('File type not supported'), false);
-  }
-};
+// const fileFilter = (req, file, cb) => {
+//   if (file.mimetype.startsWith('image/')) {
+//     cb(null, true);
+//   } else {
+//     cb(new Error('File type not supported'), false);
+//   }
+// };
 
-const upload = multer({ storage: storage, fileFilter: fileFilter });
+// const upload = multer({ storage: storage, fileFilter: fileFilter });
 
-// route to save a new book
-router.post("/",upload.single('image'), async (request, response) => {
+// route to save a new book (upload.single('image'),)
+// const {filename} = request.file;
+router.post("/", async (request, response) => {
   try {
-    const {filename} = request.file;
     if (
       !request.body.title ||
       !request.body.author ||
-      !request.body.publishYear ||
-      !request.file
+      !request.body.publishYear
+      // !request.file
     ) {
       return response.status(400).send({
         message:
-          "Send all required fields: title, author, publishYear, & image",
+          "Send all required fields: title, author, publishYear",
       });
     }
     const newBook = {
       title: request.body.title,
       author: request.body.author,
       publishYear: request.body.publishYear,
-      image: `/uploads/${filename}`
+      // image: `/uploads/${filename}`
     };
 
     const book = await Book.create(newBook);
