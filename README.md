@@ -1,6 +1,6 @@
 # Bookshop App
 
-  ## Table of Contents
+## Table of Contents
 * [Description](#Description)
 * [Features](#Features)
 * [Installation](#Installation)
